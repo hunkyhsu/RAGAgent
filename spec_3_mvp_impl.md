@@ -25,7 +25,6 @@
 - 验收
   - 注册成功后可登录
   - 错误密码返回 401
-    改动说明
 - 改动
   - 新增认证 API 与服务层，包含注册/登录、密码校验、JWT 生成与解析：src/main/java/com/hunkyhsu/ragagent/auth/
     AuthController.java、src/main/java/com/hunkyhsu/ragagent/auth/AuthService.java、src/main/java/com/hunkyhsu/ragagent/
@@ -34,28 +33,6 @@
     JwtAuthenticationFilter.java、src/main/java/com/hunkyhsu/ragagent/config/SecurityConfig.java
   - 使用 JDBC 访问 users 表，落库 BCrypt 密码：src/main/java/com/hunkyhsu/ragagent/auth/UserRepository.java、src/main/
     java/com/hunkyhsu/ragagent/auth/UserAuth.java
-  - JWT 依赖与配置项：pom.xml、src/main/resources/application.yml
-  具体验收方法（T2）
-  前置：MySQL 已启动，库 agent 存在且 Flyway 迁移执行成功。
-  1. 启动后端
-  mvn spring-boot:run
-  2. 注册成功后可登录
-  curl -s -X POST http://localhost:8080/api/auth/register ^
-  -H "Content-Type: application/json" ^
-  期望：返回包含 accessToken、tokenType、expiresInSeconds 的 JSON。
-  3. 登录成功
-  curl -s -X POST http://localhost:8080/api/auth/login ^
-  -H "Content-Type: application/json" ^
-  -d "{\"email\":\"test@example.com\",\"password\":\"Passw0rd!\"}"
-  期望：返回 accessToken。
-  4. 错误密码返回 401
-  curl -i -X POST http://localhost:8080/api/auth/login ^
-  -H "Content-Type: application/json" ^
-  -d "{\"email\":\"test@example.com\",\"password\":\"wrong\"}"
-  期望：HTTP 401。
-  注意
-  - 请替换 src/main/resources/application.yml 中的 security.jwt.secret 为至少 32 字节的安全密钥。
-  如果你希望我继续加上“受保护接口 + JWT 校验效果演示”，告诉我需要保护的具体路径即可。
 ---
 
 ## T3 会话 REST
