@@ -53,6 +53,25 @@ public class ConversationService {
                 .toList();
     }
 
+    @Transactional
+    public ConversationResponse renameConversation(User user, Long conversationId, String title) {
+        if (title == null || title.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title_required");
+        }
+        Conversation conversation = conversationRepository.findByIdAndUser(conversationId, user)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "conversation_not_found"));
+        conversation.setTitle(title.trim());
+        Conversation saved = conversationRepository.save(conversation);
+        return toConversationResponse(saved);
+    }
+
+    @Transactional
+    public void deleteConversation(User user, Long conversationId) {
+        Conversation conversation = conversationRepository.findByIdAndUser(conversationId, user)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "conversation_not_found"));
+        conversationRepository.delete(conversation);
+    }
+
     private ConversationResponse toConversationResponse(Conversation conversation) {
         return new ConversationResponse(
                 conversation.getId(),

@@ -25,14 +25,6 @@
 - 验收
   - 注册成功后可登录
   - 错误密码返回 401
-- 改动
-  - 新增认证 API 与服务层，包含注册/登录、密码校验、JWT 生成与解析：src/main/java/com/hunkyhsu/ragagent/auth/
-    AuthController.java、src/main/java/com/hunkyhsu/ragagent/auth/AuthService.java、src/main/java/com/hunkyhsu/ragagent/
-    auth/JwtService.java
-  - 增加 JWT 鉴权过滤器与安全配置，保护除 /api/auth/** 之外的接口：src/main/java/com/hunkyhsu/ragagent/auth/
-    JwtAuthenticationFilter.java、src/main/java/com/hunkyhsu/ragagent/config/SecurityConfig.java
-  - 使用 JDBC 访问 users 表，落库 BCrypt 密码：src/main/java/com/hunkyhsu/ragagent/auth/UserRepository.java、src/main/
-    java/com/hunkyhsu/ragagent/auth/UserAuth.java
 ---
 
 ## T3 会话 REST

@@ -2,6 +2,7 @@ package com.hunkyhsu.ragagent.controller;
 
 import com.hunkyhsu.ragagent.dto.ConversationCreateRequest;
 import com.hunkyhsu.ragagent.dto.ConversationResponse;
+import com.hunkyhsu.ragagent.dto.ConversationUpdateRequest;
 import com.hunkyhsu.ragagent.dto.MessageResponse;
 import com.hunkyhsu.ragagent.entity.User;
 import com.hunkyhsu.ragagent.service.ConversationService;
@@ -43,5 +44,23 @@ public class ConversationController {
             @PathVariable Long conversationId
     ) {
         return ResponseEntity.ok(conversationService.getConversationHistory(user, conversationId));
+    }
+
+    @RequestMapping(path = "/{conversationId}", method = {RequestMethod.PATCH, RequestMethod.PUT})
+    public ResponseEntity<ConversationResponse> renameConversation(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long conversationId,
+            @Valid @RequestBody ConversationUpdateRequest request
+    ) {
+        return ResponseEntity.ok(conversationService.renameConversation(user, conversationId, request.title()));
+    }
+
+    @DeleteMapping("/{conversationId}")
+    public ResponseEntity<Void> deleteConversation(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long conversationId
+    ) {
+        conversationService.deleteConversation(user, conversationId);
+        return ResponseEntity.noContent().build();
     }
 }
